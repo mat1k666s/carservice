@@ -1,0 +1,5 @@
+rootProject.name = 'carservice'
+include 'common-service-parent'
+include 'common-service-parent:nsi-microservice'
+findProject(':common-service-parent:nsi-microservice')?.name = 'nsi-microservice'
+

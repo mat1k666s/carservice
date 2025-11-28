@@ -1,0 +1,19 @@
+package ru.car.api.nsi.mapper;
+
+import org.mapstruct.factory.Mappers;
+import ru.car.api.nsi.dto.ServiceDto;
+import ru.car.api.nsi.entity.ServiceEntity;
+
+import java.util.List;
+
+public interface ServiceMapper {
+    ServiceMapper INSTANCE = Mappers.getMapper(ServiceMapper.class);
+
+    ServiceDto toDto(ServiceEntity entity);
+
+    ServiceEntity toEntity(ServiceDto dto);
+
+    List<ServiceDto> toDtoList(List<ServiceEntity> entities);
+
+    List<ServiceEntity> toEntityList(List<ServiceDto> dtos);
+}
