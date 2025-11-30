@@ -1,7 +1,7 @@
 package ru.car.api.nsi.controller;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -15,36 +15,31 @@ public class CountryController {
     @Autowired
     private CountryService countryService;
 
-    @ApiOperation(value = "получение записи по Id")
-//   @ApiResponse({
-//            @ApiResponse(code = 200, message = "Успешно")
-//            @ApiResponse(code = 204, message = "Запись не найдена")
-//           @ApiResponse(code = 500, message = "Внутренняя ошибка сервера")
-//   })
+    @Operation(summary = "получение записи по Id")
+    @ApiResponse(responseCode = "200", description = "Успешно")
+    @ApiResponse(responseCode = "204", description = "Запись не найдена")
+    @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера")
     @GetMapping("/{id}")
     @ResponseBody
     public CountryDto getById(@PathVariable("id") Integer id) {
         return countryService.getById(id);
     }
 
-    @ApiOperation(value = "добавление записи")
-
+    @Operation(summary = "добавление записи")
     @PostMapping("/add")
     @ResponseBody()
     public CountryDto add(@RequestBody CountryDto countryDto) {
         return countryService.add(countryDto);
     }
 
-    @ApiOperation(value = "обновление записи")
-
+    @Operation(summary = "обновление записи")
     @PutMapping("/update")
     @ResponseBody()
     public CountryDto update(@RequestBody CountryDto countryDto) {
         return countryService.update(countryDto);
     }
 
-    @ApiOperation(value = "удаление записи")
-
+    @Operation(summary = "удаление записи")
     @DeleteMapping("/{id}")
     @ResponseBody()
     public Integer deleteById(@PathVariable("id") Integer id) {
