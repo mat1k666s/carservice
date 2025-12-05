@@ -16,8 +16,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class StampAutoService {
-    @Autowired
-    private StampAutoRepository stampAutoRepository;
+
+    private final StampAutoRepository stampAutoRepository;
 
     @Transactional
     public StampAutoDto getById(Integer id) {

@@ -18,9 +18,10 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CountryService {
-    @Autowired
-    private CountryRepository countryRepository;
+    private final CountryRepository countryRepository;
 
+
+    @Transactional
     public CountryDto getById(Integer id){
 
         Optional<CountryEntity> entity = countryRepository.findById(id);

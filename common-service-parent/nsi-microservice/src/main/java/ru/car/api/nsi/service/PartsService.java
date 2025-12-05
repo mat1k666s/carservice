@@ -19,15 +19,17 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class PartsService {
-    private PartsRepository partsRepository;
-    @Autowired
-    public PartsDto getById(Integer id){
-        Optional<PartsEntity>entity = partsRepository.findById(id);
-        if(entity.isPresent()){
+    private final PartsRepository partsRepository;
+
+    @Transactional
+    public PartsDto getById(Integer id) {
+        Optional<PartsEntity> entity = partsRepository.findById(id);
+        if (entity.isPresent()) {
             return PartsMapper.INSTANCE.toDto(entity.get());
         }
         return null;
     }
+
     @Transactional
     public PartsDto add(PartsDto partsDto) {
         partsDto.setId(null);

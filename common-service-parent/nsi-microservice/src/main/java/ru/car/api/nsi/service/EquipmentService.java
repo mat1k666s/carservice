@@ -19,8 +19,9 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class EquipmentService {
-    private EquipmentRepository equipmentRepository;
-    @Autowired
+
+    private final  EquipmentRepository equipmentRepository;
+    @Transactional
     public EquipmentDto getById(Integer id){
         Optional<EquipmentEntity>entity = equipmentRepository.findById(id);
         if (entity.isPresent()){
