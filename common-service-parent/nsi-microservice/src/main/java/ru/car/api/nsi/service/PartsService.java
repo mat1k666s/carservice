@@ -19,7 +19,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class PartsService {
-    private final PartsRepository partsRepository;
+    private PartsRepository partsRepository;
 
     @Transactional
     public PartsDto getById(Integer id) {

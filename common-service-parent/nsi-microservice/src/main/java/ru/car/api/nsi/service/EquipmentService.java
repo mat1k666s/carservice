@@ -19,30 +19,33 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class EquipmentService {
+    private EquipmentRepository equipmentRepository;
 
-    private final  EquipmentRepository equipmentRepository;
     @Transactional
-    public EquipmentDto getById(Integer id){
-        Optional<EquipmentEntity>entity = equipmentRepository.findById(id);
-        if (entity.isPresent()){
+    public EquipmentDto getById(Integer id) {
+        Optional<EquipmentEntity> entity = equipmentRepository.findById(id);
+        if (entity.isPresent()) {
             return EquipmentMapper.INSTANCE.toDto(entity.get());
         }
         return null;
     }
+
     @Transactional
-    public EquipmentDto add(EquipmentDto equipmentDto){
+    public EquipmentDto add(EquipmentDto equipmentDto) {
         equipmentDto.setId(null);
         EquipmentEntity entity = EquipmentMapper.INSTANCE.toEntity(equipmentDto);
         entity = equipmentRepository.saveAndFlush(entity);
         return EquipmentMapper.INSTANCE.toDto(entity);
 
     }
+
     @Transactional
-    public EquipmentDto update(EquipmentDto equipmentDto){
+    public EquipmentDto update(EquipmentDto equipmentDto) {
         EquipmentEntity entity = EquipmentMapper.INSTANCE.toEntity(equipmentDto);
         entity = equipmentRepository.saveAndFlush(entity);
         return EquipmentMapper.INSTANCE.toDto(entity);
     }
+
     @Transactional
     public Integer deleteById(Integer id) {
         equipmentRepository.deleteById(id);

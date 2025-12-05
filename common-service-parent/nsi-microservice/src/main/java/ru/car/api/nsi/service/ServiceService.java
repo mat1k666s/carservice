@@ -19,7 +19,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ServiceService {
-    private final ServiceRepository serviceRepository;
+    private ServiceRepository serviceRepository;
 
     @Transactional
     public ServiceDto getById(Integer id) {
