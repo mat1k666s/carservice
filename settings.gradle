@@ -2,4 +2,11 @@ rootProject.name = 'carservice'
 include 'common-service-parent'
 include 'common-service-parent:nsi-microservice'
 findProject(':common-service-parent:nsi-microservice')?.name = 'nsi-microservice'
+include 'common-service-parent:claim-microservice'
+findProject(':common-service-parent:claim-microservice')?.name = 'claim-microservice'
+
+
+include 'common-dto-parent'
+include 'common-dto-parent:nsi-dto'
+findProject(':common-dto-parent:nsi-dto')?.name = 'nsi-dto'
 

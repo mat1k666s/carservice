@@ -1,16 +1,12 @@
 package ru.car.api.nsi.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.car.api.nsi.dto.CountryDto;
 import ru.car.api.nsi.entity.CountryEntity;
-import ru.car.api.nsi.entity.StampAutoEntity;
 import ru.car.api.nsi.mapper.CountryMapper;
-import ru.car.api.nsi.mapper.StampAutoMapper;
 import ru.car.api.nsi.repository.CountryRepository;
 
 import java.util.Optional;

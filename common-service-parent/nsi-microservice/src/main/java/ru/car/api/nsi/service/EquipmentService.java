@@ -1,15 +1,11 @@
 package ru.car.api.nsi.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.car.api.nsi.dto.EquipmentDto;
-import ru.car.api.nsi.dto.EquipmentDto;
 import ru.car.api.nsi.entity.EquipmentEntity;
-import ru.car.api.nsi.entity.EquipmentEntity;
-import ru.car.api.nsi.mapper.EquipmentMapper;
 import ru.car.api.nsi.mapper.EquipmentMapper;
 import ru.car.api.nsi.repository.EquipmentRepository;
 

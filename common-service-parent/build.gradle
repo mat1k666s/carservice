@@ -73,8 +73,8 @@ subprojects {
         testAnnotationProcessor "org.projectlombok:lombok:${parent.lombokVersion}"
         annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${parent.lombokMapstructBindingVersion}"
 
-        implementation "org.mapstruct:mapstruct:${parent.mapstructVersion}"
-        annotationProcessor "org.mapstruct:mapstruct-processor:${parent.mapstructVersion}"
+        implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+        annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
         testAnnotationProcessor "org.mapstruct:mapstruct-processor:${parent.mapstructVersion}"
 
         implementation 'ma.glasnost.orika:orika-core:1.5.4'
