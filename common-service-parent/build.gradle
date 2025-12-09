@@ -10,13 +10,13 @@ version "${System.getenv('MICROSERVICE_VERSION') != null ? System.getenv('MICROS
 
 ext {
     set('springCloudVersion', "2024.0.0")
-    set('springDocVersion', "2.3.0")
-    set('mapstructVersion', "1.5.5.Final")
-    set('lombokVersion', "1.18.30")
+    set('springDocVersion', "2.8.3")
+    set('mapstructVersion', "1.6.2")
+    set('lombokVersion', "1.18.36")
     set('lombokMapstructBindingVersion', "0.2.0")
-    set('postgreVersion', "42.7.2")
-    set('apachePoiVersion', "5.2.3")
-    set('apacheCommonsVersion', "3.12.0")
+    set('postgreVersion', "42.7.4")
+    set('apachePoiVersion', "5.3.0")
+    set('apacheCommonsVersion', "3.17.0")
 }
 
 allprojects {
@@ -33,7 +33,7 @@ subprojects {
 
     java {
         toolchain {
-            languageVersion = JavaLanguageVersion.of(17)
+            languageVersion = JavaLanguageVersion.of(21)
         }
     }
 
@@ -46,11 +46,7 @@ subprojects {
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter-validation'
         implementation 'org.springframework.boot:spring-boot-starter-actuator'
-//        implementation 'org.springframework.cloud:spring-cloud-starter-config'
         implementation 'org.springframework.boot:spring-boot-starter-web'
-//        implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-//        implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
-//        implementation 'org.springframework.cloud:spring-cloud-starter-kubernetes-client-all'
 
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
         runtimeOnly "org.postgresql:postgresql:${parent.postgreVersion}"
@@ -73,11 +69,9 @@ subprojects {
         testAnnotationProcessor "org.projectlombok:lombok:${parent.lombokVersion}"
         annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${parent.lombokMapstructBindingVersion}"
 
-        implementation "org.mapstruct:mapstruct:${mapstructVersion}"
-        annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+        implementation "org.mapstruct:mapstruct:${parent.mapstructVersion}"
+        annotationProcessor "org.mapstruct:mapstruct-processor:${parent.mapstructVersion}"
         testAnnotationProcessor "org.mapstruct:mapstruct-processor:${parent.mapstructVersion}"
-
-        implementation 'ma.glasnost.orika:orika-core:1.5.4'
 
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testImplementation 'io.projectreactor:reactor-test'

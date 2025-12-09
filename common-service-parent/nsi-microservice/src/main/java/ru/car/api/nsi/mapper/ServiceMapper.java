@@ -1,11 +1,13 @@
 package ru.car.api.nsi.mapper;
 
+import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import ru.car.api.nsi.dto.ServiceDto;
 import ru.car.api.nsi.entity.ServiceEntity;
 
 import java.util.List;
 
+@Mapper(componentModel = "spring")
 public interface ServiceMapper {
     ServiceMapper INSTANCE = Mappers.getMapper(ServiceMapper.class);
 

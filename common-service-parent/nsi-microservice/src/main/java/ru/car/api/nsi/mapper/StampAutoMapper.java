@@ -1,11 +1,13 @@
 package ru.car.api.nsi.mapper;
 
+import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import ru.car.api.nsi.dto.StampAutoDto;
 import ru.car.api.nsi.entity.StampAutoEntity;
 
 import java.util.List;
 
+@Mapper(componentModel = "spring")
 public interface StampAutoMapper {
     StampAutoMapper INSTANCE = Mappers.getMapper(StampAutoMapper.class);
 
