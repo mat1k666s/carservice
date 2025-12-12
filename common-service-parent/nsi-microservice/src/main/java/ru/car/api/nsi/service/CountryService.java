@@ -4,10 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.car.api.nsi.dto.CountryDto;
+
 import ru.car.api.nsi.entity.CountryEntity;
 import ru.car.api.nsi.mapper.CountryMapper;
 import ru.car.api.nsi.repository.CountryRepository;
+import ru.car.dto.nsi.CountryDto;
 
 import java.util.Optional;
 
@@ -20,7 +21,6 @@ public class CountryService {
 
     @Transactional
     public CountryDto getById(Integer id) {
-
         Optional<CountryEntity> entity = countryRepository.findById(id);
         if (entity.isPresent()) {
             return CountryMapper.INSTANCE.toDto(entity.get());

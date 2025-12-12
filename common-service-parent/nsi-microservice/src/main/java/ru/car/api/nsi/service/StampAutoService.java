@@ -4,10 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.car.api.nsi.dto.StampAutoDto;
+
 import ru.car.api.nsi.entity.StampAutoEntity;
 import ru.car.api.nsi.mapper.StampAutoMapper;
 import ru.car.api.nsi.repository.StampAutoRepository;
+import ru.car.dto.nsi.StampAutoDto;
 
 import java.util.Optional;
 

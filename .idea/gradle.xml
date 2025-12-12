@@ -11,7 +11,10 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/common-dto-parent" />
+            <option value="$PROJECT_DIR$/common-dto-parent/nsi-dto" />
             <option value="$PROJECT_DIR$/common-service-parent" />
+            <option value="$PROJECT_DIR$/common-service-parent/claim-microservice" />
             <option value="$PROJECT_DIR$/common-service-parent/nsi-microservice" />
           </set>
         </option>

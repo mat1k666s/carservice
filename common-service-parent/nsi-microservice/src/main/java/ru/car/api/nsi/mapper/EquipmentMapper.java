@@ -2,8 +2,8 @@ package ru.car.api.nsi.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import ru.car.api.nsi.dto.EquipmentDto;
 import ru.car.api.nsi.entity.EquipmentEntity;
+import ru.car.dto.nsi.EquipmentDto;
 
 import java.util.List;
 

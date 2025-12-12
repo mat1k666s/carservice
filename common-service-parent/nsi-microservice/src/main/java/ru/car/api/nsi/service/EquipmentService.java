@@ -4,10 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.car.api.nsi.dto.EquipmentDto;
+
 import ru.car.api.nsi.entity.EquipmentEntity;
 import ru.car.api.nsi.mapper.EquipmentMapper;
 import ru.car.api.nsi.repository.EquipmentRepository;
+import ru.car.dto.nsi.EquipmentDto;
 
 import java.util.Optional;
 
@@ -15,7 +16,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class EquipmentService {
-    private EquipmentRepository equipmentRepository;
+    private final EquipmentRepository equipmentRepository;
 
     @Transactional
     public EquipmentDto getById(Integer id) {

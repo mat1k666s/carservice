@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.car.api.nsi.dto.PartsDto;
 import ru.car.api.nsi.entity.PartsEntity;
 import ru.car.api.nsi.mapper.PartsMapper;
 import ru.car.api.nsi.repository.PartsRepository;
+import ru.car.dto.nsi.PartsDto;
 
 import java.util.Optional;
 
@@ -15,7 +15,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class PartsService {
-    private PartsRepository partsRepository;
+    private final PartsRepository partsRepository;
 
     @Transactional
     public PartsDto getById(Integer id) {

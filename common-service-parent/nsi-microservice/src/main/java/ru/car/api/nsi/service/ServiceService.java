@@ -4,11 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.car.api.nsi.dto.ServiceDto;
-import ru.car.api.nsi.dto.StampAutoDto;
 import ru.car.api.nsi.entity.ServiceEntity;
 import ru.car.api.nsi.mapper.ServiceMapper;
 import ru.car.api.nsi.repository.ServiceRepository;
+import ru.car.dto.nsi.ServiceDto;
 
 import java.util.Optional;
 
@@ -16,7 +15,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ServiceService {
-    private ServiceRepository serviceRepository;
+    private final ServiceRepository serviceRepository;
 
     @Transactional
     public ServiceDto getById(Integer id) {

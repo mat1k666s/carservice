@@ -1,4 +1,4 @@
-package ru.car.api.nsi.dto;
+package ru.car.dto.nsi;
 
 import lombok.Data;
 

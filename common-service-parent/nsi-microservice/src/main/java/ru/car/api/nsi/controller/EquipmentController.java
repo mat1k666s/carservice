@@ -5,10 +5,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import ru.car.api.nsi.dto.CountryDto;
-import ru.car.api.nsi.dto.EquipmentDto;
-import ru.car.api.nsi.dto.StampAutoDto;
 import ru.car.api.nsi.service.EquipmentService;
+import ru.car.dto.nsi.EquipmentDto;
+
 @RestController
 @CrossOrigin
 @RequestMapping(value = "/api/nsi/equipment", produces = MediaType.APPLICATION_JSON_VALUE)
