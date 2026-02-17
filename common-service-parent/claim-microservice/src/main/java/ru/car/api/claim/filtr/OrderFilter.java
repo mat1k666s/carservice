@@ -6,5 +6,6 @@ import lombok.Data;
 public class OrderFilter {
     private String fullName;
     private String phone;
+    private Integer id;
 
 }

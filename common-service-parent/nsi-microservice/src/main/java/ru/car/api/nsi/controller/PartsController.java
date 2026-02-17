@@ -7,7 +7,11 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import ru.car.api.nsi.service.PartsService;
+import ru.car.dto.nsi.CountryDto;
 import ru.car.dto.nsi.PartsDto;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -46,4 +50,12 @@ public class PartsController {
     public Integer deleteById(@PathVariable("id") Integer id) {
         return partsService.deleteById(id);
     }
+
+    @Operation(summary = "Фильтрация по цене")
+    @GetMapping("/findByPriceBetween")
+    @ResponseBody
+    public List<PartsDto> findByPriceBetween(@RequestParam("priceMin") BigDecimal priceMin,@RequestParam("priceMax")BigDecimal priceMax) {
+        return partsService.findByPriceBetween(priceMin, priceMax);
+    }
 }
+

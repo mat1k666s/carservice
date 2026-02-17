@@ -9,6 +9,8 @@ import ru.car.api.nsi.mapper.PartsMapper;
 import ru.car.api.nsi.repository.PartsRepository;
 import ru.car.dto.nsi.PartsDto;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -48,4 +50,10 @@ public class PartsService {
         partsRepository.deleteById(id);
         return id;
     }
+    @Transactional
+    public List<PartsDto> findByPriceBetween(BigDecimal priceMin , BigDecimal priceMax){
+        List<PartsEntity>entities = partsRepository.findByPriceBetween(priceMin, priceMax);
+        return PartsMapper.INSTANCE.toDtoList(entities);
+    }
+
 }

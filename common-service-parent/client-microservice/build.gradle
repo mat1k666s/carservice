@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+}
+
+group = 'ru.chap'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+dependencies {
+    implementation(project(":common-entity-parent:client-entity"))
+    implementation(project(":common-entity-parent:nsi-entity"))
+
+    implementation(project(":common-dto-parent:client-dto"))
+    implementation(project(":common-dto-parent:nsi-dto"))
+    implementation(project(":common-core-parent:client-core"))
+
+
+}

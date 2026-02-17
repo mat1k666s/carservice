@@ -3,11 +3,16 @@ package ru.car.api.nsi.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import ru.car.api.nsi.filtr.service.ServiceFilter;
 import ru.car.api.nsi.service.ServiceService;
 import ru.car.dto.nsi.ServiceDto;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -45,6 +50,19 @@ public class ServiceController {
     @ResponseBody()
     public Integer deleteById(@PathVariable("id") Integer id) {
         return serviceService.deleteById(id);
+    }
+
+    @Operation(summary = "Короткое название")
+    @DeleteMapping("/{findLikeShortName}")
+    @ResponseBody()
+    public List<ServiceDto> findLikeShortName(@PathVariable("shortName") String shortName){
+        return serviceService.findLikeShortName(shortName);
+    }
+    @GetMapping("/getServicePage")
+    @ResponseBody
+    public Page<ServiceDto> getServicePage(Pageable pageable, ServiceFilter serviceFilter){
+        return serviceService.getServicePage(pageable,serviceFilter);
+
     }
 
 }

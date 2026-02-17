@@ -3,10 +3,15 @@ package ru.car.api.nsi.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import ru.car.api.nsi.filtr.stampAuto.StampAutoFilter;
 import ru.car.api.nsi.service.StampAutoService;
 import ru.car.dto.nsi.StampAutoDto;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -45,6 +50,25 @@ public class StampAutoController {
     @ResponseBody()
     public Integer deleteById(@PathVariable("id") Integer id) {
         return stampAutoService.deleteById(id);
+    }
+
+    @Operation(summary = "Наименование страны")
+    @GetMapping("/findLikeCountryName")
+    @ResponseBody
+    public List<StampAutoDto> findLikeCountryName(@RequestParam ("countryName")String countryName){
+        return stampAutoService.findLikeCountryName(countryName);
+    }
+    @Operation(summary = "Обновление страны по ID")
+    @GetMapping("/setCountryById")
+    @ResponseBody
+    public List<StampAutoDto> setCountryById(@RequestParam ("country")String country, @RequestParam ("id")Integer id){
+        return stampAutoService.setCountryById(country,id);
+    }
+    @Operation
+    @GetMapping
+    @ResponseBody
+    public Page<StampAutoDto> getStampAutoPage(Pageable pageable, StampAutoFilter stampAutoFilter){
+        return stampAutoService.getStampAutoPage(stampAutoFilter, pageable);
     }
 
 

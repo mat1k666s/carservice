@@ -17,9 +17,7 @@ import java.util.TimeZone;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Configuration
 public class WebCfg implements WebMvcConfigurer {
-    /**
-     * Настройки Jackson
-     */
+
     @Bean
     public MappingJackson2HttpMessageConverter jsonConverter() {
         MappingJackson2HttpMessageConverter jacksonConverter = new
@@ -34,9 +32,7 @@ public class WebCfg implements WebMvcConfigurer {
         return jacksonConverter;
     }
 
-    /**
-     * Настройки Jackson
-     */
+
     @Bean
     public ObjectMapper jacksonObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();

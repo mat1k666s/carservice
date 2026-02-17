@@ -1,6 +1,10 @@
 server:
   port: 8080
 spring:
+  flyway:
+    schemas: claim
+    default-schema: claim
+#    baseline-on-migrate: true
   jpa:
     hibernate:
       ddl-auto: update

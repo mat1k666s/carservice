@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+}
+
+group = 'ru.chap'
+version = '0.0.1-SNAPSHOT'
+ext {
+    set('lombokVersion', "1.18.36")
+    set('lombokMapstructBindingVersion', "0.2.0")
+
+}
+
+
+repositories {
+    mavenCentral()
+}
+subprojects {
+    apply plugin: 'java'
+
+    dependencies {
+        testImplementation platform('org.junit:junit-bom:5.10.0')
+        testImplementation 'org.junit.jupiter:junit-jupiter'
+        implementation "org.projectlombok:lombok:${parent.lombokVersion}"
+        annotationProcessor "org.projectlombok:lombok:${parent.lombokVersion}"
+        testAnnotationProcessor "org.projectlombok:lombok:${parent.lombokVersion}"
+        annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${parent.lombokMapstructBindingVersion}"
+        implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+    }
+
+}

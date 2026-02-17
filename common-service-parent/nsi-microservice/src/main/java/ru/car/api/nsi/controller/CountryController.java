@@ -3,10 +3,16 @@ package ru.car.api.nsi.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import ru.car.api.nsi.filtr.country.CountryFilter;
 import ru.car.api.nsi.service.CountryService;
 import ru.car.dto.nsi.CountryDto;
+import ru.car.dto.nsi.StampAutoDto;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -45,6 +51,15 @@ public class CountryController {
     public Integer deleteById(@PathVariable("id") Integer id) {
         return countryService.deleteById(id);
     }
-
-
+    @Operation(summary = "Фильтрация стран по короткому названию")
+    @GetMapping("/findByShortName")
+    @ResponseBody
+    public List<CountryDto> findByShortName(@RequestParam ("shortName")String shortName) {
+        return countryService.findLikeShortName(shortName);
+    }
+    @GetMapping("/getOrderPage")
+    @ResponseBody
+    public Page<CountryDto> getOrderPage(Pageable pageable, CountryFilter countryFilter) {
+        return countryService.getOrderPage(pageable, countryFilter);
+    }
 }

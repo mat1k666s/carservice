@@ -1,15 +1,25 @@
 package ru.car.api.nsi.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ru.car.api.nsi.entity.CountryEntity;
 import ru.car.api.nsi.entity.EquipmentEntity;
+import ru.car.api.nsi.filtr.country.CountrySpecification;
+import ru.car.api.nsi.filtr.equipment.EquipmentFilter;
+import ru.car.api.nsi.filtr.equipment.EquipmentSpecification;
+import ru.car.api.nsi.mapper.CountryMapper;
 import ru.car.api.nsi.mapper.EquipmentMapper;
 import ru.car.api.nsi.repository.EquipmentRepository;
+import ru.car.dto.nsi.CountryDto;
 import ru.car.dto.nsi.EquipmentDto;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -17,6 +27,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class EquipmentService {
     private final EquipmentRepository equipmentRepository;
+
+    @Transactional
+    public Page<EquipmentDto> getEquipments(EquipmentFilter equipmentFilter, Pageable pageable) {
+        Specification<EquipmentEntity> specification = EquipmentSpecification.buildSpecification(equipmentFilter);
+        Page<EquipmentEntity> entities = equipmentRepository.findAll(specification,pageable);
+        Page<EquipmentDto>dtos = entities.map(v -> EquipmentMapper.INSTANCE.toDto(v));
+        return dtos;
+    }
 
     @Transactional
     public EquipmentDto getById(Integer id) {
@@ -47,6 +65,11 @@ public class EquipmentService {
     public Integer deleteById(Integer id) {
         equipmentRepository.deleteById(id);
         return id;
+    }
+    @Transactional
+    public List<EquipmentDto> findLikeCode(String code){
+        List<EquipmentEntity> entities = equipmentRepository.findByCodeContainingIgnoreCase(code);
+        return  EquipmentMapper.INSTANCE.toDtoList(entities);
     }
 }
 

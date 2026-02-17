@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+group = 'ru.chap'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation project(':common-entity-parent:nsi-entity')
+    implementation project(':common-dto-parent:nsi-dto')
+    implementation project(':common-core-parent:employee-core')
+
+}
+
+

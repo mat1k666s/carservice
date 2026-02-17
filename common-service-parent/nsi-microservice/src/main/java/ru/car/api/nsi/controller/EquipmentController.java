@@ -3,10 +3,16 @@ package ru.car.api.nsi.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import ru.car.api.nsi.filtr.equipment.EquipmentFilter;
 import ru.car.api.nsi.service.EquipmentService;
 import ru.car.dto.nsi.EquipmentDto;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -45,4 +51,17 @@ public class EquipmentController {
     public Integer deleteById(@PathVariable("id") Integer id) {
         return equipmentService.deleteById(id);
     }
+
+    @Operation(summary = "Фильтрация по коду")
+    @GetMapping("/findLikeCode")
+    @ResponseBody()
+    public List<EquipmentDto> findLikeCode(@RequestParam("code") String code) {
+        return equipmentService.findLikeCode(code);
+    }
+    @GetMapping("/getEquipments")
+    @ResponseBody()
+    public Page<EquipmentDto> getEquipments(Pageable pageable, EquipmentFilter equipmentFilter){
+        return equipmentService.getEquipments(equipmentFilter, pageable);
+    }
+
 }

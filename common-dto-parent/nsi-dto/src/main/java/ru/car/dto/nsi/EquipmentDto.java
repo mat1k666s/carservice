@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
         // Коплектация
 public class EquipmentDto extends BaseDto {
-    private String description;
+    private String code;
 
 
 }

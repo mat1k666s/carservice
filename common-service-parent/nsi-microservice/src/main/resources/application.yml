@@ -1,6 +1,9 @@
 server:
   port: 8080
 spring:
+  flyway:
+    schemas: nsi
+    default-schema: nsi
   jpa:
     hibernate:
       ddl-auto: update

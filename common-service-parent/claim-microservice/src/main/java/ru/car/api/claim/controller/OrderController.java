@@ -7,9 +7,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import ru.car.api.claim.dto.OrderDto;
+
 import ru.car.api.claim.filtr.OrderFilter;
 import ru.car.api.claim.service.OrderService;
+import ru.car.dto.claim.OrderDto;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -25,7 +28,7 @@ public class OrderController {
     @GetMapping("/getOrderPage")
     @ResponseBody
     public Page<OrderDto> getOrderPage(Pageable pageable, OrderFilter orderFilter) {
-        return orderService.getOrderPage(pageable,orderFilter);
+        return orderService.getOrderPage(pageable, orderFilter);
     }
 
     @Operation(summary = "добавление записи")
@@ -49,4 +52,17 @@ public class OrderController {
         return orderService.deleteById(id);
     }
 
+    @Operation(summary = "Наименование по фамилии")
+    @GetMapping("/findLikeFullName")
+    @ResponseBody
+    public List<OrderDto> findLikeFullName(@RequestParam("fullName") String fullName) {
+        return orderService.findLikeFullName(fullName);
+    }
+
+    @Operation(summary = "")
+    @GetMapping("/setAddress")
+    @ResponseBody
+    public List<OrderDto> setAddress(@RequestParam("phone") String address, @RequestParam("phone") String phone) {
+        return orderService.setAddress(address, phone);
+    }
 }
