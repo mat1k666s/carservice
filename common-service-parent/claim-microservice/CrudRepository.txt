@@ -1,0 +1,129 @@
+
+
+Ключевые возможности Spring Data JPA включают:
+Репозитории с готовыми методами для стандартных CRUD-операций (создание, чтение, обновление, удаление записей).
+
+Автоматическое создание запросов по имени метода – вы можете определять методы в интерфейсе репозитория,
+и Spring Data сам сгенерирует нужный SQL на основании имени метода.
+
+Поддержка пагинации и сортировки из коробки.
+
+Тесная интеграция со Spring Boot, позволяющая быстро стартовать без лишней конфигурации
+ (достаточно подключить зависимость spring-boot-starter-data-jpa и настроить источник данных).
+
+
+Ключевые концепции JPA
+
+Entity (Сущность) – класс, связанный с таблицей базы данных с помощью аннотации @Entity.
+Каждый экземпляр сущности соответствует записи в таблице.
+
+Primary Key (Первичный ключ) – поле сущности, помеченное @Id, которое однозначно идентифицирует запись.
+Может генерироваться автоматически (аннотация @GeneratedValue).
+
+Relationships (Связи) – ассоциации между сущностями, описываемые аннотациями @OneToMany,
+@ManyToOne, @OneToOne, @ManyToMany. Они определяют, как объекты связаны на уровне базы (через внешние ключи) и
+как загружаются связанные данные.
+
+EntityManager – основной API JPA для управления жизненным циклом сущностей.
+Он отвечает за операции CRUD, кэширование, отслеживание изменений и синхронизацию с базой данных.
+В Spring Data JPA напрямую с EntityManager работать не приходится – за него это делают репозитории.
+
+
+
+
+
+Репозиторий (Repository) в данном контексте — это слой приложения,
+который отвечает за взаимодействие с базой данных. Он абстрагирует базовые операции вроде создания,
+чтения, обновления и удаления данных (так называемые CRUD-операции).
+
+
+public interface CrudRepository<T, ID> {
+<S extends T> S save(S entity);           // Сохранение (или обновление) сущности
+  Optional<T> findById(ID id);             // Поиск сущности по идентификатору
+    boolean existsById(ID id);               // Проверка на существование записи
+    Iterable<T> findAll();                   // Получение всех сущностей
+      void deleteById(ID id);                  // Удаление по идентификатору
+      void delete(T entity);                   // Удаление переданной сущности
+}
+
+
+
+// Получить первые 20 пользователей, отсортированных по имени
+Page<User> users = repository.findAll(PageRequest.of(0, 20, Sort.by("name")));
+
+
+
+public User updateUser(Long id, String name, String email) {
+    User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+    user.setName(name);
+    user.setEmail(email);
+    return userRepository.save(user);
+}
+
+
+
+
+Кастомные методы репозиториев
+Реализация с использованием имени метода
+
+    Optional<User> findByEmail(String email);
+
+    List<User> findAllByEmail(String email);
+
+    // Поддерживаются OR и AND
+    List<User> findAllByEmailOrUsername(String email, String username);
+    List<User> findAllByEmailAndUsername(String email, String username);
+
+
+        // name != value
+        List<User> findAllByNameIsNot(String name);
+        // name IS NULL
+        List<User> findAllByNameIsNull();
+        // name IS NOT NULL
+        List<User> findAllByNameIsNotNull();
+        // active = 'true'
+        List<User> findByActiveTrue();
+        // name LIKE 'value%'
+        List<User> findByNameStartingWith(String prefix);
+        // name LIKE '%value'
+        List<User> findByNameEndingWith(String suffix);
+
+        List<User> findByAgeLessThan(Integer age);
+        List<User> findByAgeLessThanEqual(Integer age);
+
+        List<User> findByAgeBetween(Integer startAge, Integer endAge);
+
+        List<User> findByAgeIn(List<Integer> ages);
+
+        List<User> findByNameOrderByName(String name);
+        List<User> findByNameOrderByNameDesc(String name);
+
+
+List<Account> findTop5ByStatusAndBalanceBetweenOrderByBalanceDesc(String status, BigDecimal min, BigDecimal max);
+
+
+
+Этот метод найдёт Top5 счетов со статусом status и балансом между min и max,
+отсортировав по балансу (самые большие – первыми).
+Spring Data сам добавит в SQL конструкцию LIMIT 5 (для Top/First) и ORDER BY balance DESC.
+
+Реализация с использованием @Query
+@Query("SELECT u FROM User u WHERE u.email = :email")
+Optional<User> findByEmail(@Param("email") String email);
+
+    @Query("select t from #{#entityName} t where ?1 between t.dateBegin and t.dateEnd and t.corTip <> ?2")
+    public List<RouteVertexEntity> findAllByDate(Date date,Date date2);
+
+
+@Query("SELECT e FROM User e WHERE e.name LIKE %:name%")
+List<User> findAllByNameContaining(@Param("name") String name);
+
+
+    @Modifying
+    @Query(value = "update #{#entityName} t set t.orderId = :orderId WHERE t.id = :legServiceId")
+    void setOrderId(@Param("legServiceId") Integer legServiceId, @Param("orderId") Integer orderId);
+
+
+// Плохой пример! НЕ делайте так
+@Query("SELECT m FROM Account m WHERE m.ownerName = '" + ":name" + "'")
+List<Account> findByOwnerNameRaw(String name);;

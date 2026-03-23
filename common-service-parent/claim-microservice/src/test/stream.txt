@@ -1,0 +1,206 @@
+Stream API — это новый способ работать со структурами данных в функциональном стиле.
+Stream (поток) API (описание способов, которыми одна компьютерная программа может взаимодействовать с другой программой) —
+это по своей сути поток данных. Сам термин "поток" довольно размыт в программировании в целом и в Java в частности.
+
+
+IntStream.of(50, 60, 70, 80, 90, 100, 110, 120).filter(x -> x < 90).map(x -> x + 10)
+.limit(3).forEach(System.out::print);
+
+int[] arr = {50, 60, 70, 80, 90, 100, 110, 120}
+	int count = 0;
+	for (int x : arr) {
+	    if (x >= 90) continue;
+	    x += 10;
+	    count++;
+	    if (count > 3) break;
+	    System.out.print(x);
+	}
+
+
+Возможные способы создания Stream:
+Пустой стрим: Stream.empty()
+Стрим из List: list.stream()
+Стрим из Map: map.entrySet().stream()
+Стрим из массива: Arrays.stream(array)
+Стрим из указанных элементов: Stream.of("1", "2", "3")
+
+
+Операторы  можно разделить на две группы:
+Промежуточные (“intermediate”, ещё называют “lazy”) — обрабатывают поступающие элементы и возвращают стрим.
+Промежуточных операторов в цепочке обработки элементов может быть много.
+Терминальные (“terminal”, ещё называют “eager”) — обрабатывают элементы и завершают работу стрима,
+так что терминальный оператор в цепочке может быть только один.
+
+ Промежуточный конвейер
+API Описание
+filter() - Фильтрует элементы, которые соответствуют критериям, и возвращает новый поток
+sorted() - Возвращает новый поток, отсортировав все элементы потока в соответствии с заданными правилами
+skip() - Пропускает указанное количество элементов в начале коллекции и возвращает новый поток
+distinct() - Убирает дубликаты из потока и возвращает новый поток
+limit() - Сохраняет указанное количество элементов в начале коллекции и возвращает новый поток
+concat() - Объединяет данные из двух потоков в новый поток и возвращает его
+peek() - Обходит и обрабатывает каждый элемент потока по одному и возвращает обработанный поток
+map() - Преобразует существующий элемент в объект другого типа (один-к-одному) и возвращает новый поток
+flatMap() - Преобразует существующие элементы в объекты другого типа (один-ко-многим),
+то есть один элемент может быть преобразован в один или несколько новых элементов, и возвращает новый поток
+
+
+ Завершение конвейера
+ findFirst() - Обработка потока завершается, когда найден первый элемент, соответствующий критериям
+ findAny() - Завершает обработку потока, когда найден любой элемент, соответствующий условиям
+ anyMatch() - Возвращает логическое значение (boolean), аналогичное isContains(), используется для проверки наличия элементов,
+ соответствующих условиям
+ allMatch() - Возвращает логическое значение, используется для проверки, соответствуют ли все элементы условиям
+ noneMatch() - Возвращает логическое значение, используется для проверки, не соответствует ли ни один элемент условиям
+ min() - Возвращает минимальное значение после обработки потока
+ max() - Возвращает максимальное значение после обработки потока
+ count() - Возвращает итоговое количество элементов после обработки потока
+ collect() - Преобразует поток в указанный тип, используя Collectors
+ toArray() - Преобразует поток в массив
+ iterator() - Преобразует поток в объект типа Iterator
+ forEach() - Не возвращает значение, обходит элементы по одному и выполняет заданную логику обработки
+
+
+
+map и flatMap используются для преобразования существующих элементов в элементы других типов. Различие между ними:
+map предполагает преобразование «один-к-одному», то есть каждый элемент может быть преобразован только в один новый элемент.
+flatMap допускает преобразование «один-ко-многим», то есть каждый элемент может быть преобразован в один или несколько новых элементов.
+
+    public List<String> objectToString(List<Student> students) {
+        return students.stream().map(Student::getName).collect(Collectors.toList());
+    }
+
+    [Bob, Ted, Zeka]
+
+
+ public static class Team {
+     private String type;
+     private List<Student> students;
+ }
+
+ List<Student> basketballStudents = Lists.newArrayList(
+                 new Student("Bob", 18),
+                 new Student("Ted", 17),
+                 new Student("Zeka", 19));
+
+ List<Student> footballStudent = Lists.newArrayList(
+                 new Student("Alan", 19),
+                 new Student("Anne", 21),
+                 new Student("Davis", 21));
+
+ Team basketballTeam = new Team("bastetball", basketballStudents);
+ Team footballTeam = new Team("football", footballStudent);
+ List<Team> teams = Lists.newArrayList(basketballTeam, footballTeam);
+
+решение
+List<Student> allStudents = teams.stream()
+    .flatMap(t -> t.getStudents().stream().filter(a -> a >= 18))
+    .collect(Collectors.toList());
+
+
+
+
+
+Для списка учащихся из всех команд нам нужно узнать воз
+раст второго и третьего самых старших из них.
+Они должны быть не младше 18 лет. Кроме того, если есть повторяющиеся значения, их следует учитывать только один раз.
+
+List<Integer> topTwoAges = allStudents.stream() /
+      .map(Student::getAge) //[18, 17, 19, 19, 21, 21]
+      .filter(a -> a >= 18) //[18, 19, 19, 21, 21]
+      .distinct()   //[18, 19, 21]
+      .sorted((a1, a2) -> a2 - a1)  //
+      .skip(1)  //[19, 18]
+      .limit(2) //[19, 18]
+      .collect(Collectors.toList());
+
+System.out.println(topTwoAges);
+
+
+
+footballTeam.getStudents().stream()
+    .map(Student::getAge)
+    .max(Comparator.comparing(a -> a))
+    .ifPresent(a -> System.out.println("The maximum age for a football team is " + a));
+
+ footballTeam.getStudents().stream()
+     .map(Student::getAge)
+     .min(Comparator.comparing(a -> a))
+     .ifPresent(a -> System.out.println("The minimum age for a football team is " + a));
+
+
+     Вернуть имя первого студента в баскетбольной команде, возраст которого равен 19;
+
+     Вернуть имя любого студента в баскетбольной команде, возраст которого равен 19.
+
+
+
+basketballStudents.stream()
+    .filter(s -> s.getAge() == 19)
+    .findFirst()
+    .map(Student::getName)
+    .ifPresent(name -> System.out.println("findFirst: " + name));
+
+//findAny
+basketballStudents.stream()
+    .filter(s -> s.getAge() == 19)
+    .findAny()
+    .map(Student::getName)
+    .ifPresent(name -> System.out.println("findAny: " + name));
+
+
+ Есть ли в футбольной команде студент по имени Алан?
+ Все ли студенты в футбольной команде моложе 22 лет?
+ Нет ли в футбольной команде студентов старше 20 лет?
+
+ // соответствие хотя бы одного элемента
+ System.out.println("anymatch: "
+                    + footballStudent.stream().anyMatch(s -> s.getName().equals("Alan")));
+
+  new Student("Bob", 18),
+                 new Student("Ted", 17),
+                 new Student("Zeka", 19));
+                 new Student("Alan", 19),
+                 new Student("Anne", 21),
+                 new Student("Davis", 21));
+
+ // соответствие всех элементов
+ System.out.println("allmatch: "
+                    + footballStudent.stream().allMatch(s -> s.getAge() < 22));
+ //nonematch
+ System.out.println("noneMatch: "
+                    + footballStudent.stream().noneMatch(s -> s.getAge() > 20));
+
+
+
+Создание коллекций — это, вероятно, самый распространённый сценарий использования метода collect.
+Помимо List, упомянутого ранее, также можно создавать Set, Map и другие коллекции. Пример:
+
+// Получить актуальное распределение возрастов студентов в баскетбольной команде, без дубликатов.
+Set<Integer> ageSet = basketballStudents.stream().map(Student::getAge).collect(Collectors.toSet());
+System.out.println("set: " + ageSet);
+
+// Получить карту (отображение) имён и возрастов всех студентов в баскетбольной команде.
+Map<String, Integer> nameAndAgeMap = basketballStudents.stream().collect(Collectors.toMap(Student::getName, Student::getAge));
+System.out.println("map: " + nameAndAgeMap);
+
+
+Генерация объединённой строки
+System.out.println(basketballStudents.stream().map(Student::getName).collect(Collectors.joining(",")));
+
+
+
+Генерация статистических результатов
+System.out.println("average age: " + basketballStudents.stream().map(Student::getAge).collect(Collectors.averagingInt(a -> a)));
+
+// Сводная статистика
+IntSummaryStatistics summary = basketballStudents.stream()
+    .map(Student::getAge)
+    .collect(Collectors.summarizingInt(a -> a));
+System.out.println("summary: " + summary);
+
+
+average age: 18.0
+summary: IntSummaryStatistics{count=3, sum=54, min=17, average=18.000000, max=19}
+
+

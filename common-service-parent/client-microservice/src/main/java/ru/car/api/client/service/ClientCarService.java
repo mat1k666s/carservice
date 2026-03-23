@@ -49,6 +49,7 @@ public class ClientCarService {
         clientCarRepository.deleteById(id);
         return id;
     }
+
     @Transactional
     public List<ClientCarDto> findByColorContainingIgnoreCase(String color) {
         List<ClientCarEntity>entities = clientCarRepository.findByColorContainingIgnoreCase(color);
